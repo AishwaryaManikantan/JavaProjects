@@ -1,0 +1,74 @@
+2,3....J,Q,K,A => 13 cards for each suit
+priority -> index-> 0 to 12
+priority should be changable
+
+4 suits => no priority currently but there should be easy way to set in future
+
+Rank representation
+
+Pattern?
+
+1 pattern for each rank
+
+each input can match more than one pattern
+
+combination of cards + respective rank
+
+4H 4C 6S 7S KD
+
+4h 4c 5s 9s kd
+
+count of each value
+example=> 4,2 ; 6,1 ; 7,1  ; K,1
+
+if any count=4, its "four of kind"
+if any count=3, its "three of kind"
+3 & 2 , its fullhouse
+if any count=2, its pair
+2&2, two pairs
+1 , high value
+
+have weight of pattern identified sum<value * count> example - 8 for pair + 6 for high + 7 for high + K for high
+
+count of each suit
+example=>H,1 ; C,1 ; S,2 ; K,1
+
+if count=5, flush or straight flush or royal flush
+
+if index(first card value)-1==index(second card value)
+& if first card is A => royal flush 
+ else straight flus
+else flush
+
+weight -<sum of values>
+
+
+
+Final value= list<pattern,weight> 
+
+calculate overall weight of patterns except for high - here - 8
+
+
+worst case
+TH 2S AD 6H 7S 6H 7S 7H 2S 3H
+
+TH 2S AD 6H 7S 6H 7S 6H 2S 3H //high cards
+
+TH 2S 3D 6H 7S 6H 7S TH 2S 3H //same high cards
+
+5H 2H 6H 3H 4H 6H 7S TH 2S 3H //straight flush
+
+5H 2C 6H 3C 4H 6H 7S TH 2S 3H //straight
+
+5H 8H 6H 3H 4H 6H 7S TH 2S 3H //flush
+
+6H 7S TH 2S 3H JH KH AH TH QH //royal flush
+
+4H 4C 5H 5C 5D JH 6H AH TH QH //fullhouse
+
+4H 4C 5H 5C 3D JH 6H AH TH QH //two pair
+
+
+
+
+
