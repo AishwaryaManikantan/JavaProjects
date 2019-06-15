@@ -1,0 +1,41 @@
+
+Instructions:
+1) To set the paragraph, use POST /count-api/updateParagraph which takes String as input.
+2) To search text, use POST /count-api/search which takes list of strings in Json format.
+3) To get top n strings, use GET /count-api/top/n which gives response in csv format.
+
+Notes:
+
+1) If search or top is done before paragraph update, 400 Bad request would be sent as response.
+2) First Paragraph update would store paragraph and index words & counts first time.
+3) Further paragraph updates would always replace old paragraph cached and indexed values.
+4) String is considered CASE SENSITIVE for comparison. Example Hi or HI or hI or hi all 4 are different.
+
+Examples:
+
+Positive cases-
+
+1)curl -v -X POST localhost:8080/count-api/updateParagraph -H"Authorization: Basic b3B0dXM6Y2FuZGlkYXRlcw==" -d 'This is sample test para for test purpose.This is sample .sample-case 123.' -H"Content-Type: plain/text"
+
+Response- 200OK
+
+2)curl -v -X POST localhost:8080/count-api/search -H"Authorization: Basic b3B0dXM6Y2FuZGlkYXRlcw==" -d '{"searchText":["is","sample"]}' -H"Content-Type: application/json"
+
+Response- 200OK
+{"counts":{"is":2,"sample":3}}
+
+3)curl -v http://localhost:8080/count-api/top/2 -H"Authorization:Basic b3B0dXM6Y2FuZGlkYXRlcw=="
+
+Response- 200OK
+sample|3
+This|2
+
+Negative cases-
+
+1)If search or top operation is done, 400 Bad request with error message 'Please update the paragraph' would be sent as response.
+
+2)If paragraph update got empty string or string with just spaces, 400 Bad request with error message 'Paragraph cannot be empty' would be sent as response.
+
+3)If limit(n) is 0 or less in /count-api/top/n, 400 Bad request with error message 'Limit cannot be 0 or less'
+
+4)If search text are not present in paragraph, count value would 0. Example {"counts":{"bla":0,"blabla":0}}
